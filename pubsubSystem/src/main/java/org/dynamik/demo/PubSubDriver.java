@@ -1,11 +1,9 @@
 package org.dynamik.demo;
 
-import org.dynamik.model.Message;
-import org.dynamik.model.Publisher;
-import org.dynamik.model.Subscriber;
-import org.dynamik.model.Topic;
+import org.dynamik.model.*;
 import org.dynamik.service.*;
 
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -24,15 +22,15 @@ public class PubSubDriver {
         // Initialize the demo
         System.out.println("🚀 Starting Pub-Sub System Demo...\n");
 
-        // Create topics
-        Topic techNews = createTopic("Tech News");
-        Topic sports = createTopic("Sports");
-        Topic finance = createTopic("Finance");
+        // Create topics with short retention times for demo
+        Topic techNews = createTopic("Tech News", 5000L);   // 5 seconds retention
+//        Topic sports = createTopic("Sports", 8000L);        // 8 seconds retention
+//        Topic finance = createTopic("Finance", 10000L);      // 10 seconds retention
 
         // Create publishers
         Publisher techPublisher = createPublisher("Tech Publisher");
-        Publisher sportsPublisher = createPublisher("Sports Publisher");
-        Publisher financePublisher = createPublisher("Finance Publisher");
+//        Publisher sportsPublisher = createPublisher("Sports Publisher");
+//        Publisher financePublisher = createPublisher("Finance Publisher");
 
         // Create subscribers
         Subscriber subscriber1 = createSubscriber("Alice");
@@ -42,59 +40,172 @@ public class PubSubDriver {
         // Subscribe users to topics
         subscribeToTopic(techNews, subscriber1);
         subscribeToTopic(techNews, subscriber2);
-        subscribeToTopic(sports, subscriber2);
-        subscribeToTopic(sports, subscriber3);
-        subscribeToTopic(finance, subscriber1);
-        subscribeToTopic(finance, subscriber3);
+//        subscribeToTopic(sports, subscriber2);
+//        subscribeToTopic(sports, subscriber3);
+//        subscribeToTopic(finance, subscriber1);
+//        subscribeToTopic(finance, subscriber3);
 
-        // Simulate concurrent publishing and subscribing
-        ExecutorService executor = Executors.newFixedThreadPool(5);
+        //simulate publisher
+       simulatePublisher(techPublisher, techNews, "Tech Update #%d: New AI breakthrough!");
+//
+//
+//        // simulate parallel publisher
+//        simulateParallelPublisher(financePublisher, finance, "Market Update #%d: Stock market analysis");
 
-        // Publisher threads
-        simulatePublisher(techPublisher, techNews, "Tech Update #%d: New AI breakthrough!");
-        simulatePublisher(sportsPublisher, sports, "Sports Update #%d: Exciting match results!");
-        simulatePublisher(financePublisher, finance, "Market Update #%d: Stock market analysis");
+        // Demo message deletion with retention
+//        demoMessageDeletion(techPublisher, techNews, "Tech Update #%d: New AI breakthrough!");
 
-        // Add a new subscriber after some time
-      //  executor.submit(() -> {
-            try {
-                TimeUnit.SECONDS.sleep(5);
-                Subscriber lateSubscriber = createSubscriber("Late Joiner");
-                subscribeToTopic(techNews, lateSubscriber);
-                subscribeToTopic(finance, lateSubscriber);
-                System.out.println("\n🆕 Late Joiner subscribed to Tech News and Finance!");
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-   //     });
+        // Test subscriber status
+        testSubscriberStatus(subscriber1.getId());
 
-        // Unsubscribe a user after some time
-      //  executor.submit(() -> {
-            try {
-                TimeUnit.SECONDS.sleep(8);
-                System.out.println("\n👋 " + subscriber2.getName() + " is unsubscribing from Tech News...");
-                pubSubSystem.unsubscribe(techNews.getId(), subscriber2.getId());
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-    //    });
-
-        // Shutdown after some time
-        executor.shutdown();
+        // Shutdown after demo
         try {
-            if (!executor.awaitTermination(15, TimeUnit.SECONDS)) {
-                executor.shutdownNow();
-            }
+            TimeUnit.SECONDS.sleep(15); // Wait for deletion demo
             System.out.println("\n✅ Demo completed!");
         } catch (InterruptedException e) {
-            executor.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+
+
+        // Add a new subscriber after some time
+//      //  executor.submit(() -> {
+//            try {
+//                TimeUnit.SECONDS.sleep(5);
+//                Subscriber lateSubscriber = createSubscriber("Late Joiner");
+//                subscribeToTopic(techNews, lateSubscriber);
+//                subscribeToTopic(finance, lateSubscriber);
+//                System.out.println("\n🆕 Late Joiner subscribed to Tech News and Finance!");
+//            } catch (InterruptedException e) {
+//                Thread.currentThread().interrupt();
+//            }
+//   //     });
+
+        // Unsubscribe a user after some time
+//      //  executor.submit(() -> {
+//            try {
+//                TimeUnit.SECONDS.sleep(8);
+//                System.out.println("\n👋 " + subscriber2.getName() + " is unsubscribing from Tech News...");
+//                pubSubSystem.unsubscribe(techNews.getId(), subscriber2.getId());
+//            } catch (InterruptedException e) {
+//                Thread.currentThread().interrupt();
+//            }
+//    //    });
+
+        // Shutdown after some time
+//        executor.shutdown();
+//        try {
+//            if (!executor.awaitTermination(15, TimeUnit.SECONDS)) {
+//                executor.shutdownNow();
+//            }
+//            System.out.println("\n✅ Demo completed!");
+//        } catch (InterruptedException e) {
+//            executor.shutdownNow();
+//            Thread.currentThread().interrupt();
+//        }
+    }
+
+    private void simulateParallelPublisher(Publisher publisher, Topic topic, String messageFormat) {
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+
+        for (int i = 1; i <= 10; i++) {
+            int finalI = i;
+            executor.submit(() -> {
+                String messageContent = String.format(messageFormat, finalI);
+                Message message = new Message();
+                message.setId(UUID.randomUUID().toString());
+                message.setContent(messageContent);
+                message.setPublisherId(publisher.getId());
+                message.setTopicId(topic.getId());
+                messageService.save(message);
+
+                System.out.println("\n📤 " + publisher.getName() + " publishing to " + topic.getTopicName() + ": " + messageContent);
+                pubSubSystem.publish(topic.getId(), message.getId(), publisher.getId());
+            });
+        }
+    }
+    
+    private void demoMessageDeletion(Publisher publisher, Topic topic, String messageFormat) {
+        System.out.println("\n🧪 Starting deletion demo for topic: " + topic.getTopicName() + " (Retention: " + topic.getRetentionTime() + "ms)");
+        
+        try {
+            // Publish 3 messages with timestamps
+            for (int i = 1; i <= 3; i++) {
+                String messageContent = String.format(messageFormat, i);
+                Message message = new Message();
+                message.setId(UUID.randomUUID().toString());
+                message.setContent(messageContent);
+                message.setPublisherId(publisher.getId());
+                message.setTopicId(topic.getId());
+                messageService.save(message);
+                
+                System.out.println("📤 [" + System.currentTimeMillis() + "] " + publisher.getName() + " publishing: " + messageContent);
+                pubSubSystem.publish(topic.getId(), message.getId(), publisher.getId());
+                
+                // Check message count after publishing
+                List<Message> currentMessages = messageService.findByTopicId(topic.getId());
+                System.out.println("📊 Messages in topic after publish: " + currentMessages.size());
+                
+                TimeUnit.SECONDS.sleep(2); // Wait 2 seconds between messages
+            }
+            
+            // Wait and check if messages are deleted
+            System.out.println("\n⏳ Waiting for messages to expire based on retention time...");
+            TimeUnit.SECONDS.sleep(8); // Wait longer than retention time
+            
+            // Check final message count
+            List<Message> finalMessages = messageService.findByTopicId(topic.getId());
+            System.out.println("📊 Final messages in topic: " + finalMessages.size());
+            
+            if (finalMessages.isEmpty()) {
+                System.out.println("✅ All messages deleted successfully by retention policy!");
+            } else {
+                System.out.println("⚠️  " + finalMessages.size() + " messages still present (may not have expired yet)");
+                finalMessages.forEach(msg -> System.out.println("  - " + msg.getContent() + " (deletes at: " + (msg.getDeletionTime() != null ? new java.util.Date(msg.getDeletionTime()) : "N/A") + ")"));
+            }
+            
+        } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
     }
+    
+    private void testSubscriberStatus(String subscriberId) {
+        System.out.println("\n📊 Testing Subscriber Status for: " + subscriberId);
+        
+        try {
+            List<SubscriberStatus> statuses = pubSubSystem.getSubscriberStats(subscriberId);
+            
+            if (statuses.isEmpty()) {
+                System.out.println("ℹ️  No topic subscriptions found for this subscriber");
+                return;
+            }
+            
+            System.out.println("📈 Subscriber Status Report:");
+            System.out.println("================================");
+            
+            for (SubscriberStatus status : statuses) {
+                System.out.println("📢 Topic: " + status.getTopicName());
+                System.out.println("   Last Consumed Offset: " + status.getLastConsumedOffset());
+                System.out.println("   Current Topic Offset: " + status.getTopicCurrentOffset());
+                System.out.println("   Lag: " + status.getLag() + " messages");
+                System.out.println("   Status: " + getLagDescription(status.getLag()));
+                System.out.println();
+            }
+            
+        } catch (Exception e) {
+            System.err.println("❌ Error getting subscriber status: " + e.getMessage());
+        }
+    }
+    
+    private String getLagDescription(Long lag) {
+        if (lag == 0) return "CAUGHT_UP ✅";
+        if (lag <= 5) return "ACTIVE 🟢";
+        if (lag <= 20) return "LAGGING 🟡";
+        return "HEAVILY_LAGGING 🔴";
+    }
 
-    private  Topic createTopic(String name) {
-        System.out.println("📢 Creating topic: " + name);
-        return pubSubSystem.createTopic(name);
+    private Topic createTopic(String name, Long retentionTimeMillis) {
+        System.out.println("📢 Creating topic: " + name + " (Retention: " + (retentionTimeMillis/1000) + " seconds)");
+        return pubSubSystem.createTopic(name, retentionTimeMillis);
     }
 
     private  Publisher createPublisher(String name) {

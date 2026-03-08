@@ -10,4 +10,7 @@ public class Message {
     private String content;
     private String publisherId;
     private String topicId;
+    private Long ttl;  // RETENTION TIME
+    private Long offset; // Message offset within topic (sequence number)
+    private Long deletionTime; // When this message should be deleted (scheduled)
 }

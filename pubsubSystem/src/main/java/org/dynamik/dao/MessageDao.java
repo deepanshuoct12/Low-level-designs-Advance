@@ -17,6 +17,24 @@ public class MessageDao implements BaseDao <Message, String> {
          return messages.values().stream().filter(m -> m.getPublisherId().equals(publisherId)).toList();
     }
 
+    public List<Message> findAll() {
+        return List.copyOf(messages.values());
+    }
+
+    // Retention management
+    public List<Message> findByTopicIdOlderThan(String topicId, long cutoffTime) {
+        return messages.values().stream()
+                .filter(m -> m.getTopicId().equals(topicId))
+                .filter(m -> m.getCreatedAt() < cutoffTime)
+                .toList();
+    }
+    
+    public int deleteMessagesOlderThan(String topicId, long cutoffTime) {
+        List<Message> toDelete = findByTopicIdOlderThan(topicId, cutoffTime);
+        toDelete.forEach(msg -> messages.remove(msg.getId()));
+        return toDelete.size();
+    }
+
 
     @Override
     public Message save(Message entity) {

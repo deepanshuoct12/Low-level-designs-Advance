@@ -3,6 +3,7 @@ package org.dynamik.service;
 import org.dynamik.dao.TopicDao;
 import org.dynamik.model.Topic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TopicService {
@@ -43,5 +44,14 @@ public class TopicService {
     // Exists
     public boolean existsById(String id) {
         return topicDao.existsById(id);
+    }
+
+    public List<Topic> findAllByIds(List<String> topicIds) {
+        List<Topic> topics = new ArrayList<>();
+        for (String id : topicIds) {
+            topics.add(topicDao.findById(id));
+        }
+
+        return topics;
     }
 }

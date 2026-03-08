@@ -30,6 +30,19 @@ public class MessageService {
         return messageDao.findByPublisherId(publisherId);
     }
 
+    public List<Message> findAll() {
+        return messageDao.findAll();
+    }
+
+    // Retention management
+    public List<Message> findExpiredMessages(String topicId, long cutoffTime) {
+        return messageDao.findByTopicIdOlderThan(topicId, cutoffTime);
+    }
+    
+    public int cleanupExpiredMessages(String topicId, long cutoffTime) {
+        return messageDao.deleteMessagesOlderThan(topicId, cutoffTime);
+    }
+
     // Update
     public Message update(Message message) {
         return messageDao.save(message);
