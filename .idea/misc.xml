@@ -16,6 +16,10 @@
         <option value="$PROJECT_DIR$/demo/pom.xml" />
         <option value="$PROJECT_DIR$/quizApplication/pom.xml" />
         <option value="$PROJECT_DIR$/parkinglot/pom.xml" />
+        <option value="$PROJECT_DIR$/loggerlibrary/pom.xml" />
+        <option value="$PROJECT_DIR$/carrentalservice/pom.xml" />
+        <option value="$PROJECT_DIR$/chessgame/pom.xml" />
+        <option value="$PROJECT_DIR$/snakeandladdergame/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

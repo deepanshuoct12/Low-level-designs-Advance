@@ -92,13 +92,13 @@ public class LinkedInApplication extends NotificationSubject implements ILinkedI
 
     @Override
     public void likePost(String userId, String postId) {
-      likeService.addLike(new Like(postId, userId));
-      Post post = postService.getPostById(postId);
-      User user = userService.getUserById(userId);
-      Notification notification = notificationService.createNotification(userId, post.getTitle(), NotificationType.LIKE);
-      clearObservers();
-      registerObserver(user);
-      notifyObservers(notification);
+        likeService.addLike(new Like(postId, userId));
+        Post post = postService.getPostById(postId);
+        User user = userService.getUserById(userId);
+        Notification notification = notificationService.createNotification(userId, post.getTitle(), NotificationType.LIKE);
+        
+        UserObserver observer = new UserObserver(user);
+        notifyObserver(observer, notification);
     }
 
     @Override

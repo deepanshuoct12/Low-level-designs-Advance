@@ -26,4 +26,8 @@ public  abstract class NotificationSubject {
         observers.clear();
     }
 
+    public void notifyObserver(IObserver observer, Notification notification) {
+        observer.update(notification);
+    }
+
 }

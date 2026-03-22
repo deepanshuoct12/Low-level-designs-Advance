@@ -1,0 +1,1 @@
+2 subsrciber can subcirbe to one topic

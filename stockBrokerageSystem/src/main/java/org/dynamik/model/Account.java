@@ -6,5 +6,5 @@ import lombok.Data;
 public class Account extends AbstractEntity {
     private String userId;
     private String email;
-    private Long balance = 0L;
+    private Long balance = 0L;  // current balance of user
 }
