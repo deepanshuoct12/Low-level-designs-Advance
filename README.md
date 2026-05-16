@@ -8,4 +8,5 @@
 7. Stock brokerage system
 8. task management system
 9. Vehicle application
+10. Inventory management system
     
