@@ -38,7 +38,11 @@ public class ParkingLotService implements IParkingLotService {
 
     public static synchronized ParkingLotService getInstance() {
         if (instance == null) {
-            instance = new ParkingLotService();
+            synchronized (ParkingLotService.class) {
+                if (instance == null) {
+                    instance = new ParkingLotService();
+                }
+            }
         }
         return instance;
     }

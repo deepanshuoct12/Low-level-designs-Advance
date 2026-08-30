@@ -10,6 +10,7 @@ import org.dynamik.model.Slot;
 import org.dynamik.model.Vehicle;
 import org.dynamik.service.BranchService;
 import org.dynamik.service.CarRentalServiceImpl;
+import org.dynamik.service.ICarRentalService;
 import org.dynamik.service.VehicleService;
 
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class CarRentalDriver {
     private VehicleService vehicleService;
-    private CarRentalServiceImpl carRentalService;
+    private ICarRentalService carRentalService;
     private BranchService branchService;
 
 

@@ -4,28 +4,32 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/booking/pom.xml" />
-        <option value="$PROJECT_DIR$/linkedin/pom.xml" />
-        <option value="$PROJECT_DIR$/pubsubSystem/pom.xml" />
+        <option value="$PROJECT_DIR$/traffic-signal/pom.xml" />
+        <option value="$PROJECT_DIR$/stack-overflow/pom.xml" />
+        <option value="$PROJECT_DIR$/video-player/pom.xml" />
+        <option value="$PROJECT_DIR$/splitwise/pom.xml" />
+        <option value="$PROJECT_DIR$/continue-watching-ott/pom.xml" />
+        <option value="$PROJECT_DIR$/config-service/pom.xml" />
+        <option value="$PROJECT_DIR$/coffee-machine/pom.xml" />
+        <option value="$PROJECT_DIR$/atm-machine/pom.xml" />
         <option value="$PROJECT_DIR$/auctionSystem/pom.xml" />
-        <option value="$PROJECT_DIR$/SpringBatch5.0Demo/pom.xml" />
-        <option value="$PROJECT_DIR$/vehicle-application/pom.xml" />
-        <option value="$PROJECT_DIR$/stockBrokerageSystem/pom.xml" />
+        <option value="$PROJECT_DIR$/cricInfo/pom.xml" />
         <option value="$PROJECT_DIR$/taskManagementSystem/pom.xml" />
-        <option value="$PROJECT_DIR$/movieTicketBookingSystem/pom.xml" />
-        <option value="$PROJECT_DIR$/demo/pom.xml" />
+        <option value="$PROJECT_DIR$/stockBrokerageSystem/pom.xml" />
+        <option value="$PROJECT_DIR$/pubsubSystem/pom.xml" />
         <option value="$PROJECT_DIR$/quizApplication/pom.xml" />
-        <option value="$PROJECT_DIR$/parkinglot/pom.xml" />
         <option value="$PROJECT_DIR$/loggerlibrary/pom.xml" />
-        <option value="$PROJECT_DIR$/carrentalservice/pom.xml" />
         <option value="$PROJECT_DIR$/chessgame/pom.xml" />
+        <option value="$PROJECT_DIR$/linkedin/pom.xml" />
+        <option value="$PROJECT_DIR$/movieTicketBookingSystem/pom.xml" />
+        <option value="$PROJECT_DIR$/vehicle-application/pom.xml" />
+        <option value="$PROJECT_DIR$/payment-system/pom.xml" />
         <option value="$PROJECT_DIR$/snakeandladdergame/pom.xml" />
+        <option value="$PROJECT_DIR$/parkinglot/pom.xml" />
+        <option value="$PROJECT_DIR$/inventorymanagement/pom.xml" />
+        <option value="$PROJECT_DIR$/booking/pom.xml" />
+        <option value="$PROJECT_DIR$/carrentalservice/pom.xml" />
       </list>
-    </option>
-    <option name="ignoredFiles">
-      <set>
-        <option value="$PROJECT_DIR$/../SpringBatch5.0Demo/pom.xml" />
-      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="21" project-jdk-type="JavaSDK">

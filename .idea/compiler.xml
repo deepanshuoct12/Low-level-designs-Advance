@@ -3,6 +3,42 @@
   <component name="CompilerConfiguration">
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="booking" />
+        <module name="carrentalservice" />
+        <module name="vehicle-application" />
+        <module name="video-player" />
+        <module name="cricInfo" />
+        <module name="linkedin" />
+        <module name="atm-machine" />
+        <module name="quizApplication" />
+        <module name="movieTicketBookingSystem" />
+        <module name="pubsubSystem" />
+        <module name="payment-system" />
+        <module name="splitwise" />
+        <module name="snakeandladdergame" />
+        <module name="stockBrokerageSystem" />
+        <module name="continue-watching-ott" />
+        <module name="loggerlibrary" />
+        <module name="parkinglot" />
+        <module name="config-service" />
+        <module name="auctionSystem" />
+        <module name="traffic-signal" />
+        <module name="stack-overflow" />
+        <module name="inventorymanagement" />
+        <module name="task-manager" />
+        <module name="chessgame" />
+        <module name="coffee-machine" />
+      </profile>
     </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="booking" options="-parameters" />
+      <module name="vehicle-application" options="-parameters" />
+    </option>
   </component>
 </project>
