@@ -28,6 +28,7 @@
         <module name="auctionSystem" />
         <module name="traffic-signal" />
         <module name="stack-overflow" />
+        <module name="course-registration-system" />
         <module name="inventorymanagement" />
         <module name="task-manager" />
         <module name="chessgame" />

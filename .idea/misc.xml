@@ -29,6 +29,7 @@
         <option value="$PROJECT_DIR$/inventorymanagement/pom.xml" />
         <option value="$PROJECT_DIR$/booking/pom.xml" />
         <option value="$PROJECT_DIR$/carrentalservice/pom.xml" />
+        <option value="$PROJECT_DIR$/course-registration-system/pom.xml" />
       </list>
     </option>
   </component>
